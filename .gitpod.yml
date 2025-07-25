@@ -2,4 +2,20 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: analyze -h
+  - name: Instalar SDKMAN y paquetes de Python
+    init: |
+      curl -s "https://get.sdkman.io" | bash
+      echo "source $HOME/.sdkman/bin/sdkman-init.sh" >> ~/.bashrc
+      source "$HOME/.sdkman/bin/sdkman-init.sh"
+      sdk version
+      pip3 install pandas
+  - name: Probar entorno
+    command: |
+      echo "Python:"
+      python3 --version
+      echo "Pandas:"
+      python3 -c "import pandas; print(pandas.__version__)"
+      echo "SDKMAN:"
+      source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk version
+      echo "FreeLing:"
+      analyze --help
